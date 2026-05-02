@@ -1,335 +1,473 @@
-<!DOCTYPE html>
-<html lang="id">
+﻿<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Unseen Java | Immersive Room</title>
-    <meta name="description"
-        content="Unseen Java adalah pengalaman Immersive Room audiovisual yang menempatkan pengunjung di pusat pertunjukan visual skala besar.">
+    <title>Unseen Java | Karmawibhangga</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('unseenjava.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Manrope:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
+    {{-- favicon public/unseenjava.svg  --}}
+    <link rel="icon" href="{{ asset('unseenjava.svg') }}" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        gold: {
-                            100: '#f7e8b1',
-                            300: '#e4c76a',
-                            500: '#d4af37',
-                            700: '#9f7f20'
-                        },
-                        ink: '#0a0a0a',
-                        ivory: '#fffdf7'
+                        amber: {
+                            200: '#fde68a',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
                     },
                     fontFamily: {
-                        title: ['Cinzel', 'serif'],
-                        body: ['Manrope', 'sans-serif']
+                        headline: ['Cinzel', 'serif'],
+                        body: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
                     }
                 }
             }
         };
     </script>
-
     <style>
-        html {
-            scroll-behavior: smooth;
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .reveal {
+        .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        .reveal.show {
+        .fade-in.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .hero-overlay {
-            background:
-                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.28), transparent 45%),
-                linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.72) 100%);
+        .slide-right {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        .parallax-layer {
-            will-change: transform;
-            transform: translate3d(0, 0, 0);
+        .slide-right.is-visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .hero-image {
-            animation: heroPulse 12s ease-in-out infinite alternate;
-            transform-origin: center center;
+        .slide-left {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        @keyframes heroPulse {
-            from {
-                transform: scale(1.02);
-            }
-
-            to {
-                transform: scale(1.08);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            .reveal,
-            .parallax-layer,
-            .hero-image {
-                transition: none !important;
-                animation: none !important;
-                transform: none !important;
-            }
+        .slide-left.is-visible {
+            opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
 
-<body class="font-body bg-ivory text-ink overflow-x-hidden">
-    <header class="relative w-screen min-h-screen text-white">
-        <img src="https://images.unsplash.com/photo-1609334761849-77e99a82557d?auto=format&fit=crop&w=2200&q=80"
-            alt="Ruang immersive bertema candi"
-            class="absolute inset-0 h-full w-full object-cover parallax-layer hero-image" data-parallax-speed="0.22">
-        <div class="hero-overlay absolute inset-0 parallax-layer" data-parallax-speed="0.1"></div>
+<body class="bg-black text-white selection:bg-amber-500 selection:text-black">
 
-        <nav class="fixed top-0 left-0 right-0 z-50 bg-black/35 backdrop-blur-sm border-b border-gold-500/25">
-            <div class="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex items-center justify-between">
-                <h1 class="font-title text-xl md:text-2xl tracking-wide text-gold-300">Unseen Java</h1>
-                <div class="hidden md:flex items-center gap-6 text-sm">
-                    <a href="#about" class="hover:text-gold-300 transition">About Us</a>
-                    <a href="#incoming" class="hover:text-gold-300 transition">Incoming Event</a>
-                    <a href="#galeri" class="hover:text-gold-300 transition">Galeri</a>
-                    <a href="#social" class="hover:text-gold-300 transition">Sosial Media</a>
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-transparent py-6">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#hero-section" class="relative group">
+                    <span
+                        class="text-xl font-headline font-bold tracking-[0.1em] text-white transition-colors duration-500 hover:text-amber-400">
+                        Unseen Java
+                    </span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex items-center gap-10 text-sm font-medium tracking-widest text-white/70 font-body">
+                <div class="relative group">
+                    <a href="#konsep-section"
+                        class="flex items-center gap-1 transition-all duration-300 uppercase relative hover:text-amber-400">
+                        KONSEP
+                    </a>
+                </div>
+                <div class="relative group">
+                    <a href="#gallery-section"
+                        class="flex items-center gap-1 transition-all duration-300 uppercase relative hover:text-amber-400">
+                        GALLERY
+                    </a>
+                </div>
+                <div class="relative group">
+                    <a href="#immersive-section"
+                        class="flex items-center gap-1 transition-all duration-300 uppercase relative hover:text-amber-400">
+                        NOW EVENT
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-6 ml-4 border-l border-white/10 pl-8 font-body">
+                    <div class="flex items-center gap-2 text-[10px] font-bold tracking-widest text-white/30">
+                        <button class="hover:text-amber-400 transition-colors">EN</button>
+                        <span class="text-white/10">|</span>
+                        <button class="hover:text-amber-400 transition-colors text-amber-400">ID</button>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 px-5 py-2 border border-amber-500/30 rounded-none text-amber-400 hover:bg-amber-500 hover:text-black transition-all duration-300 text-xs font-bold uppercase">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Login
+                    </button>
                 </div>
             </div>
-        </nav>
 
-        <section class="relative z-10 min-h-screen w-screen px-6 lg:px-10 pt-28 pb-16 flex items-end">
-            <div class="max-w-5xl reveal">
-                <p class="uppercase tracking-[0.26em] text-xs md:text-sm text-gold-100 mb-4">Immersive Room Experience
-                </p>
-                <h2 class="font-title text-4xl md:text-7xl leading-tight text-gold-300">
-                    Visual Spektakuler.
-                    Ruang Total.
-                    Sensasi Menyeluruh.
-                </h2>
-                <p class="mt-6 text-white/85 max-w-2xl text-base md:text-lg leading-relaxed">
-                    Unseen Java dirancang untuk pengalaman imersif penuh: proyeksi dinding-ke-langit-langit,
-                    sound system sinematik, serta transisi visual masif yang membuat pengunjung menjadi bagian dari
-                    pertunjukan.
-                </p>
-                <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="#incoming"
-                        class="bg-gold-500 text-ink font-semibold px-7 py-3 rounded-full hover:bg-gold-300 transition">Pesan
-                        Tiket Event</a>
-                    <a href="#galeri"
-                        class="border border-gold-300 text-gold-100 px-7 py-3 rounded-full hover:bg-gold-300/10 transition">Lihat
-                        Visual Galeri</a>
-                </div>
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-black border-t border-white/10 p-6 md:hidden">
+            <div class="flex flex-col gap-4 text-center items-center font-body">
+                <a href="#konsep-section"
+                    class="py-2 block tracking-widest uppercase font-medium text-white hover:text-amber-400">KONSEP</a>
+                <a href="#gallery-section"
+                    class="py-2 block tracking-widest uppercase font-medium text-white hover:text-amber-400">GALLERY</a>
+                <a href="#immersive-section"
+                    class="py-2 block tracking-widest uppercase font-medium text-white hover:text-amber-400">NOW
+                    EVENT</a>
             </div>
-        </section>
-    </header>
+        </div>
+    </nav>
 
     <main>
-        <section id="about" class="py-16 md:py-24 bg-ink text-white">
-            <div class="max-w-7xl mx-auto px-6 lg:px-10">
-                <div class="reveal max-w-4xl">
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-gold-300">About Us</p>
-                    <h3 class="font-title text-3xl md:text-5xl mt-3">Fokus Kami: Pengalaman Immersive Room yang Intens
-                    </h3>
-                    <p class="mt-6 text-white/80 leading-relaxed text-base md:text-lg">
-                        Unseen Java bukan sekadar pameran statis. Setiap event dibangun sebagai perjalanan visual
-                        real-time,
-                        dengan skala layar besar, tata cahaya dramatis, dan audio yang mengelilingi ruangan.
-                        Seluruh desain ruang diarahkan untuk memaksimalkan rasa "masuk ke dalam dunia pertunjukan".
-                    </p>
+        <!-- Hero Section -->
+        <section id="hero-section" class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="{{ asset('img/camera.png') }}"
+                    class="w-full h-full object-cover opacity-70" alt="Candi Borobudur" />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black"></div>
+            </div>
+            <div class="relative z-10 text-center px-6 max-w-4xl fade-in">
+                <p class="text-amber-400 font-medium tracking-[0.5em] text-xs md:text-sm mb-4 uppercase font-body">
+                    Spiritual - Ekologis - Masa Depan</p>
+                <h1 class="text-5xl md:text-8xl font-headline text-white mb-8 leading-tight lowercase">unseen java
+                    <br /><span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-600 uppercase">KARMAWIBHANGGA</span>
+                </h1>
+                <div>
+                    <a href="#immersive-section"
+                        class="inline-block px-8 py-4 bg-amber-500 text-black font-bold tracking-widest text-xs hover:bg-amber-400 transition-all rounded-none uppercase font-body shadow-lg">Now
+                        Event</a>
                 </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 font-body">
+                <div class="w-[1px] h-12 bg-gradient-to-b from-transparent to-amber-400"></div>
+                <span class="text-[10px] text-amber-400 tracking-widest uppercase font-medium"
+                    style="writing-mode: vertical-rl">GULIR</span>
+            </div>
+        </section>
 
-                <div class="mt-12 grid md:grid-cols-2 gap-5">
-                    <img src="https://images.unsplash.com/photo-1629712499847-57ce7a20f438?auto=format&fit=crop&w=1800&q=80"
-                        alt="Proyeksi visual pada relief candi" class="reveal w-full h-[58vh] md:h-[70vh] object-cover">
-                    <img src="https://images.unsplash.com/photo-1626594864260-34c95b3f8f28?auto=format&fit=crop&w=1800&q=80"
-                        alt="Arca besar sebagai objek visual utama"
-                        class="reveal w-full h-[58vh] md:h-[70vh] object-cover">
+        <!-- Maestro Section -->
+        <section id="maestro-section" class="py-24 px-6 bg-black border-y border-white/5 overflow-hidden scroll-mt-20">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-stretch">
+                <div class="relative order-2 md:order-1 h-full fade-in">
+                    <div
+                        class="h-full overflow-hidden border border-white/10 grayscale hover:grayscale-0 transition-all duration-1000">
+                        <img src="{{ asset('img/maestro.png') }}"
+                            class="w-full h-full object-cover" alt="Kreativitas Modern Maestro" />
+                    </div>
+                    <div class="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-amber-500"></div>
+                </div>
+                <div class="order-1 md:order-2 flex flex-col justify-center slide-left">
+                    <h2 class="text-3xl md:text-5xl font-headline text-amber-500 mb-8 leading-tight italic uppercase">
+                        Apa yang akan diciptakan para maestro besar jika mereka memiliki akses ke peralatan modern?</h2>
+                    <div class="space-y-6">
+                        <p class="text-white/70 leading-relaxed font-body font-light text-lg">Sosok kreatif di balik
+                            proyek ini Hendy Hertiasa (Selaku Dosen dari Desain Komunikasi Visual FSRDITB) sebagai
+                            konseptor.</p>
+                        <p class="text-white/70 leading-relaxed font-body font-light text-lg">Serta dukungan dan
+                            inisiator Dewi Gontha (Presiden Direktur Java Festival Production), lahirlah sebuah gagasan
+                            <span class="text-amber-400 font-headline">“Unseen Java: Karmawibhangga”</span>, paviliun
+                            imersif kontemplatif di Java Jazz Festival 2026, yang menampilkan tontonan film animasi &
+                            Motion graphic AI dikolaborasikan dengan pertunjukan musik, dance dan yoga.</p>
+                    </div>
+                    <button
+                        class="mt-12 group self-start flex items-center gap-4 px-8 py-4 border border-amber-500 text-amber-500 font-bold tracking-widest text-xs hover:bg-amber-500 hover:text-black transition-all rounded-none uppercase font-body">Temukan
+                        Eksibisi Kami</button>
                 </div>
             </div>
         </section>
 
-        <section id="incoming" class="py-16 md:py-24 bg-ivory">
-            <div class="max-w-7xl mx-auto px-6 lg:px-10">
-                <div class="reveal mb-10">
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-gold-700">Incoming Event</p>
-                    <h3 class="font-title text-3xl md:text-5xl mt-2">Jadwal Event Berikutnya</h3>
+        <!-- Introduction Section -->
+        <section id="konsep-section" class="py-24 px-6 bg-black scroll-mt-20">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+                <div class="slide-right">
+                    <h2 class="text-3xl md:text-5xl font-headline text-white mb-8 leading-tight italic uppercase">
+                        Trilogi Pedagogis <br /><span class="text-amber-500 not-italic">dalam kerangka O-C-E</span>
+                    </h2>
+                    <p class="text-white/60 leading-relaxed mb-8 text-lg font-light font-body">"Bertahan abad lamanya,
+                        160 relief Karmawibhangga tersembunyi di kaki candi Borobudur hingga kini."</p>
+                    <div class="grid grid-cols-2 gap-6 font-body">
+                        <div
+                            class="p-6 border border-white/5 bg-white/5 hover:bg-white/10 transition-all group rounded-none">
+                            <h3
+                                class="text-white font-bold mb-2 text-sm uppercase tracking-wider font-headline text-amber-400">
+                                Dimensi Spiritual</h3>
+                            <p class="text-white/40 text-xs leading-relaxed">Menjelajahi makna tersembunyi di balik
+                                relief Karmawibhangga sebagai panduan moral dan spiritual.</p>
+                        </div>
+                        <div
+                            class="p-6 border border-white/5 bg-white/5 hover:bg-white/10 transition-all group rounded-none">
+                            <h3
+                                class="text-white font-bold mb-2 text-sm uppercase tracking-wider font-headline text-amber-400">
+                                Kesadaran Ekologis</h3>
+                            <p class="text-white/40 text-xs leading-relaxed">Harmonisasi antara pelestarian budaya dan
+                                keberlanjutan lingkungan masa depan.</p>
+                        </div>
+                        <div
+                            class="p-6 border border-white/5 bg-white/5 hover:bg-white/10 transition-all group rounded-none">
+                            <h3
+                                class="text-white font-bold mb-2 text-sm uppercase tracking-wider font-headline text-amber-400">
+                                Imersi Visual</h3>
+                            <p class="text-white/40 text-xs leading-relaxed">Teknologi digital yang menghidupkan
+                                kembali relief yang tertutup di kaki Candi Borobudur.</p>
+                        </div>
+                        <div
+                            class="p-6 border border-white/5 bg-white/5 hover:bg-white/10 transition-all group rounded-none">
+                            <h3
+                                class="text-white font-bold mb-2 text-sm uppercase tracking-wider font-headline text-amber-400">
+                                Pedagogi O-C-E</h3>
+                            <p class="text-white/40 text-xs leading-relaxed">Metode pembelajaran terstruktur yang
+                                menggabungkan Observasi, Kontemplasi, dan Edukasi.</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="space-y-8">
-                    <article class="reveal relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=2200&q=80"
-                            alt="Visual event Mandala Pulse"
-                            class="w-full h-[62vh] md:h-[74vh] object-cover parallax-layer" data-parallax-speed="0.06">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 md:p-10 text-white max-w-3xl">
-                            <h4 class="font-title text-3xl md:text-5xl text-gold-300">Mandala Pulse 360</h4>
-                            <p class="mt-3 text-white/85">Tempat: Taman Budaya Yogyakarta</p>
-                            <p class="text-white/85">Waktu: 25 Mei 2026, 19:00 WIB</p>
-                        </div>
-                    </article>
-
-                    <article class="reveal relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1592455095259-8f84e1801fb5?auto=format&fit=crop&w=2200&q=80"
-                            alt="Visual event Echo Dome" class="w-full h-[62vh] md:h-[74vh] object-cover parallax-layer"
-                            data-parallax-speed="0.06">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 p-6 md:p-10 text-white max-w-3xl">
-                            <h4 class="font-title text-3xl md:text-5xl text-gold-300">Echo Dome: Prambanan Light</h4>
-                            <p class="mt-3 text-white/85">Tempat: Balai Kota Semarang</p>
-                            <p class="text-white/85">Waktu: 01 Juni 2026, 20:00 WIB</p>
-                        </div>
-                    </article>
+                <div class="relative slide-left">
+                    <div class="aspect-[4/5] overflow-hidden rounded-none border border-white/10 shadow-2xl">
+                        <img src="{{ asset('img/glow-borobudur.jpg')}}"
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                            alt="Detail Relief" />
+                    </div>
+                    <div
+                        class="absolute -bottom-8 -left-8 p-8 bg-amber-500 text-black max-w-xs rounded-none shadow-2xl hidden lg:block font-body">
+                        <p class="text-sm font-medium italic font-body">"Seni adalah jendela menuju pemahaman ekologis
+                            masa lalu untuk masa depan."</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="galeri" class="bg-ink text-white py-16 md:py-24">
-            <div class="max-w-7xl mx-auto px-6 lg:px-10">
-                <div class="reveal mb-10">
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-gold-300">Galeri</p>
-                    <h3 class="font-title text-3xl md:text-5xl mt-2">Visual Candi dan Arca Skala Besar</h3>
+        <!-- Gallery Section -->
+        <section id="gallery-section" class="bg-black py-24 scroll-mt-20">
+            <div class="max-w-[1400px] mx-auto px-6 mb-12 fade-in">
+                <div class="text-center md:text-left">
+                    <h2 class="text-5xl md:text-7xl font-headline text-amber-500 uppercase tracking-tight mb-4 italic">
+                        Gallery</h2>
+                    <div class="w-20 h-[2px] bg-amber-500 mx-auto md:mx-0"></div>
                 </div>
-
-                <div class="grid md:grid-cols-2 gap-5">
-                    <img class="reveal w-full h-[72vh] object-cover"
-                        src="https://images.unsplash.com/photo-1673701068833-78e8d3f6fbe0?auto=format&fit=crop&w=2000&q=80"
-                        alt="Arca batu dengan pencahayaan artistik">
-                    <img class="reveal w-full h-[72vh] object-cover"
-                        src="https://images.unsplash.com/photo-1668563335681-ef9db1b83959?auto=format&fit=crop&w=2000&q=80"
-                        alt="Dinding relief candi dalam pencahayaan dramatis">
-                    <img class="reveal w-full h-[72vh] object-cover md:col-span-2"
-                        src="https://images.unsplash.com/photo-1609334761849-77e99a82557d?auto=format&fit=crop&w=2500&q=80"
-                        alt="Immersive room bertema candi dengan atmosfer sinematik">
-                </div>
-
-                <div class="reveal mt-16 mb-8">
-                    <p class="text-sm font-semibold uppercase tracking-[0.22em] text-gold-300">Galeri Event Terdahulu
-                    </p>
-                    <h4 class="font-title text-3xl md:text-5xl mt-2">Event yang Sudah Terlaksana</h4>
-                </div>
-
-                <div class="space-y-10">
-                    <article class="reveal grid lg:grid-cols-5 gap-0 border border-gold-500/30 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1545261053-8f0a74f0f8a2?auto=format&fit=crop&w=1900&q=80"
-                            alt="Event Dawn of Light"
-                            class="lg:col-span-3 w-full h-[52vh] md:h-[65vh] object-cover parallax-layer"
-                            data-parallax-speed="0.05">
-                        <div class="lg:col-span-2 p-6 md:p-10 bg-black/45">
-                            <h5 class="font-title text-3xl text-gold-300">Dawn of Light</h5>
-                            <p class="mt-5 text-white/80">Tempat: Gedung Kesenian Jakarta</p>
-                            <p class="text-white/80">Waktu: 18 Januari 2026, 19:30 WIB</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 w-full border-y border-white/10">
+                <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 border-r border-white/10">
+                    <div
+                        class="relative aspect-square group overflow-hidden cursor-pointer border-b border-white/10 sm:border-r fade-in">
+                        <img src="{{ asset('img/gal3.png') }}"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                            alt="Galeri" />
+                        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-white text-xs font-body font-medium leading-relaxed max-w-[200px]">Pameran
+                                Galeri Relik Karmawibhangga</p>
                         </div>
-                    </article>
-
-                    <article class="reveal grid lg:grid-cols-5 gap-0 border border-gold-500/30 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8d4d9?auto=format&fit=crop&w=1900&q=80"
-                            alt="Event Shadow of Java"
-                            class="lg:col-span-3 w-full h-[52vh] md:h-[65vh] object-cover parallax-layer"
-                            data-parallax-speed="0.05">
-                        <div class="lg:col-span-2 p-6 md:p-10 bg-black/45">
-                            <h5 class="font-title text-3xl text-gold-300">Shadow of Java</h5>
-                            <p class="mt-5 text-white/80">Tempat: Creative Hub Bandung</p>
-                            <p class="text-white/80">Waktu: 07 Februari 2026, 20:00 WIB</p>
+                    </div>
+                    <div
+                        class="relative aspect-square group overflow-hidden cursor-pointer border-b border-white/10 sm:border-r fade-in">
+                        <img src="{{ asset('img/gal2.jpg') }}"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                            alt="Galeri" />
+                        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-white text-xs font-body font-medium leading-relaxed max-w-[200px]">
+                                Menjelajahi titik kecil penglihatan nexus</p>
                         </div>
-                    </article>
-
-                    <article class="reveal grid lg:grid-cols-5 gap-0 border border-gold-500/30 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1612866450401-cf2eb4f1761d?auto=format&fit=crop&w=1900&q=80"
-                            alt="Event Temple Pulse"
-                            class="lg:col-span-3 w-full h-[52vh] md:h-[65vh] object-cover parallax-layer"
-                            data-parallax-speed="0.05">
-                        <div class="lg:col-span-2 p-6 md:p-10 bg-black/45">
-                            <h5 class="font-title text-3xl text-gold-300">Temple Pulse</h5>
-                            <p class="mt-5 text-white/80">Tempat: Convention Hall Surabaya</p>
-                            <p class="text-white/80">Waktu: 23 Maret 2026, 18:45 WIB</p>
+                    </div>
+                    <div
+                        class="relative aspect-square group overflow-hidden cursor-pointer border-b border-white/10 sm:border-r fade-in">
+                        <img src="{{ asset('img/gal1.jpg') }}"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                            alt="Galeri" />
+                        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-white text-xs font-body font-medium leading-relaxed max-w-[200px]">Elemen
+                                Kehidupan</p>
                         </div>
-                    </article>
+                    </div>
+                    <div
+                        class="relative aspect-square group overflow-hidden cursor-pointer border-b border-white/10 sm:border-r fade-in">
+                        {{-- <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                            alt="Galeri" /> --}}
+                            {{-- video  --}}
+                        <video src="{{ asset('video/gal4.mp4') }}"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
+                            autoplay loop muted playsinline></video>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div
+                                class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-none flex items-center justify-center text-white border border-white/30 group-hover:scale-110 transition-transform">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                    <polygon points="5 3 19 12 5 21 5 3" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-white text-xs font-body font-medium leading-relaxed max-w-[200px]">Titik
+                                Kecil Yang Sangat Luas</p>
+                        </div>
+                    </div>
                 </div>
+                <div class="md:col-span-1 h-full fade-in">
+                    <div class="relative h-full min-h-[500px] group overflow-hidden cursor-pointer">
+                        <img src="{{ asset('img/gal5.png') }}"
+                            class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                            alt="Galeri" />
+                        <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
+                            <p class="text-white text-sm font-headline font-bold uppercase tracking-widest mb-2">Fokus
+                                Utama</p>
+                            <p class="text-white text-lg font-body font-medium leading-relaxed italic">Pancaran Cahaya
+                                Abadi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Immersive Room Section -->
+        <section id="immersive-section" class="py-24 px-6 bg-zinc-950 scroll-mt-20 font-body">
+            <div class="max-w-7xl mx-auto text-center mb-16 fade-in">
+                <h2 class="text-4xl md:text-6xl font-headline text-white mb-6 uppercase tracking-tight italic">Ruang
+                    Imersif Kontemplatif</h2>
+                <p class="text-white/50 max-w-2xl mx-auto font-light font-body">Masuki ruang di mana batas antara masa
+                    lalu dan masa depan memudar melalui visualisasi digital interaktif relief Karmawibhangga.</p>
+            </div>
+            <div class="max-w-6xl mx-auto relative group fade-in">
+                <div
+                    class="aspect-video overflow-hidden rounded-none border border-white/10 relative shadow-[0_0_50px_rgba(245,158,11,0.1)]">
+                    <video src="{{ asset('video/kondemplatif.mp4') }}"
+                        class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000"
+                        autoplay loop muted playsinline></video>
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <button
+                            class="w-20 h-20 bg-amber-500 rounded-none flex items-center justify-center text-black hover:scale-110 transition-transform shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <polygon points="5 3 19 12 5 21 5 3" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 px-6 bg-amber-500 text-black text-center relative overflow-hidden font-body fade-in">
+            <div class="max-w-4xl mx-auto relative z-10">
+                <h2 class="text-4xl md:text-6xl font-headline mb-8 leading-tight italic uppercase">"Temukan apa yang
+                    tersembunyi, <br /> rasakan apa yang tak terlihat."</h2>
+                <button
+                    class="px-10 py-4 bg-black text-white font-bold tracking-widest hover:bg-zinc-800 transition-all rounded-none uppercase shadow-2xl font-body">Daftar
+                    Presale Tiket</button>
             </div>
         </section>
     </main>
 
-    <footer id="social" class="bg-ivory py-14 md:py-16 border-t border-black/10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-10">
-            <div class="reveal flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                <div>
-                    <h4 class="font-title text-2xl md:text-3xl text-gold-700">Sosial Media</h4>
-                    <p class="mt-2 text-zinc-700">Ikuti update jadwal immersive room terbaru dari Unseen Java.</p>
-                </div>
-                <div class="flex flex-wrap gap-3 text-sm">
-                    <a href="#"
-                        class="px-5 py-2.5 rounded-full border border-gold-700 text-gold-700 hover:bg-gold-500 hover:text-ink transition">Instagram</a>
-                    <a href="#"
-                        class="px-5 py-2.5 rounded-full border border-gold-700 text-gold-700 hover:bg-gold-500 hover:text-ink transition">TikTok</a>
-                    <a href="#"
-                        class="px-5 py-2.5 rounded-full border border-gold-700 text-gold-700 hover:bg-gold-500 hover:text-ink transition">YouTube</a>
-                    <a href="#"
-                        class="px-5 py-2.5 rounded-full border border-gold-700 text-gold-700 hover:bg-gold-500 hover:text-ink transition">X
-                        / Twitter</a>
+    <!-- Footer -->
+    <footer class="bg-zinc-950 pt-24 pb-12 px-6 border-t border-white/5 font-body">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16 fade-in">
+            <div class="col-span-2">
+                <div class="flex items-center mb-6"><span
+                        class="text-2xl font-headline font-bold tracking-[0.1em] text-white">Unseen Java</span></div>
+                <p class="text-white/50 max-w-sm mb-8 leading-relaxed font-light font-body">Mengungkap lapisan
+                    tersembunyi warisan budaya Jawa melalui perpaduan seni, spiritualitas, dan teknologi masa depan.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 tracking-widest text-sm uppercase font-body">Tautan Cepat</h4>
+                <ul class="space-y-4 text-white/40 text-sm font-light font-body">
+                    <li><a href="#" class="hover:text-amber-400 transition-colors font-body">Tentang Kami</a>
+                    </li>
+                    <li><a href="#" class="hover:text-amber-400 transition-colors font-body">Arsip Relief</a>
+                    </li>
+                    <li><a href="#" class="hover:text-amber-400 transition-colors font-body">Tiket Online</a>
+                    </li>
+                    <li><a href="#" class="hover:text-amber-400 transition-colors font-body">Kebijakan
+                            Privasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6 tracking-widest text-sm uppercase font-body">Buletin</h4>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email anda"
+                        class="bg-white/5 border border-white/10 px-4 py-2 text-white text-sm focus:outline-none focus:border-amber-500 w-full rounded-none font-light font-body" />
+                    <button
+                        class="bg-amber-500 text-black px-4 py-2 text-xs font-bold hover:bg-amber-400 transition-colors rounded-none uppercase shadow-md font-body">Kirim</button>
                 </div>
             </div>
-            <p class="reveal text-xs text-zinc-500 mt-8">&copy; {{ date('Y') }} Unseen Java. All rights reserved.
-            </p>
+        </div>
+        <div
+            class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest uppercase font-medium text-white/20 font-body">
+            <p>© 2026 UNSEEN JAVA. HAK CIPTA DILINDUNGI.</p>
+            <p>DIBUAT DENGAN JIWA DI INDONESIA</p>
         </div>
     </footer>
 
     <script>
-        const revealElements = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.replace('bg-transparent', 'bg-black/80');
+                nav.classList.add('backdrop-blur-md');
+            } else {
+                nav.classList.replace('bg-black/80', 'bg-transparent');
+                nav.classList.remove('backdrop-blur-md');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
+                    entry.target.classList.add('is-visible');
                     observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.15
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => {
+            observer.observe(el);
         });
-
-        revealElements.forEach((element) => observer.observe(element));
-
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!prefersReducedMotion) {
-            const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
-            let ticking = false;
-
-            const updateParallax = () => {
-                const scrollY = window.scrollY;
-                parallaxElements.forEach((element) => {
-                    const speed = parseFloat(element.dataset.parallaxSpeed || '0');
-                    const y = scrollY * speed;
-                    element.style.transform = `translate3d(0, ${y}px, 0)`;
-                });
-                ticking = false;
-            };
-
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    window.requestAnimationFrame(updateParallax);
-                    ticking = true;
-                }
-            }, {
-                passive: true
-            });
-
-            updateParallax();
-        }
     </script>
 </body>
 
